@@ -55,13 +55,11 @@ if password == PASSWORD:
 
   try:
     data = urllib.unquote(data)
-    print(data)
   except Exception:
     print("can't unquote data")
     sys.exit(1)
   try:
     data = json.loads(data)
-    print(data)
   except Exception:
     print("can't parse json")
     sys.exit(1)

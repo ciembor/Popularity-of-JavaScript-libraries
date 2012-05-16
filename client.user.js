@@ -939,11 +939,11 @@
       "names" : getNames()
     };
 
-   xmlhttp.onreadystatechange = function() {
-     if(4 === xmlhttp.readyState) {
-       console.log(xmlhttp.responseText);
-     }
-   };
+//   xmlhttp.onreadystatechange = function() {
+//     if(4 === xmlhttp.readyState) {
+//       console.log(xmlhttp.responseText);
+//     }
+//   };
 
     url += '?pass=' + SERVER_PASSWORD + '&json=' + encodeURIComponent(JSON.stringify(pack));
 

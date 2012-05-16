@@ -8,8 +8,8 @@
 
 (function() {
 
-  var SERVER_URL = "";
-  var SERVER_PASSWORD = "";
+  var SERVER_URL = "http://server.domain/server.py";
+  var SERVER_PASSWORD = "password";
 
   // MD5 library /////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -929,14 +929,27 @@
 
   if (isHTML(document)) {
     
-    var pack = JSON.stringify({
+    var xmlhttp = new XMLHttpRequest(),
+        url = SERVER_URL;
+    
+    var pack = {
       "url_hash" : b64_md5(document.URL),
       "domain_hash" : b64_md5(window.location.hostname),
+      "iframe" : window.top ? false : true,
       "names" : getNames()
-    });
+    };
 
-    console.log(pack);
+   xmlhttp.onreadystatechange = function() {
+     if(4 === xmlhttp.readyState) {
+       console.log(xmlhttp.responseText);
+     }
+   };
 
+    url += '?pass=' + SERVER_PASSWORD + '&json=' + encodeURIComponent(JSON.stringify(pack));
+
+    xmlhttp.open('GET', url, true);
+    xmlhttp.send(null);
+  
   }
 
 })();

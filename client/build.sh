@@ -20,7 +20,7 @@ echo -e "var ID = \"$(randid)\";" >> $OUTPUT
 
 # append js libraries
 echo -e "\n\n// libraries /////////////////////////////////////////////////////////\n\n" >> $OUTPUT
-cat libs/md5.js libs/json2.js >> $OUTPUT
+cat libs/md5.js libs/json2_mod.js >> $OUTPUT
 
 # append main file
 echo -e "\n\n// main //////////////////////////////////////////////////////////////\n\n" >> $OUTPUT

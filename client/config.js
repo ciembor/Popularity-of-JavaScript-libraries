@@ -6,5 +6,5 @@
 // @include        *
 // ==/UserScript==
 
-var SERVER_URL = "http://server.domain/server.py",
-    SERVER_PASSWORD = "password";
+var SERVER_URL = "http://37.59.78.131/~ciembor/Popularity-of-JavaScript-libraries/server.py",
+    SERVER_PASSWORD = "klopklop";

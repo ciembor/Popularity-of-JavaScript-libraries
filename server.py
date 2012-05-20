@@ -10,17 +10,19 @@ import urllib
 import couchdb
 from collections import defaultdict
 
-print('Content-type: text/html\n\n')
+print('Access-Control-Allow-Origin: *')
+print('Content-type: text/html')
+print('')
 
 # configuration ########################################
 
-COUCH_USER = "username"
-COUCH_PASS = "password"
+COUCH_USER = "ciembor"
+COUCH_PASS = "klopklop13"
 
 DB_URL = "http://localhost.localdomain:5984/"
-DB_NAME = "database"
+DB_NAME = "pojsl"
 
-PASSWORD = "password"
+PASSWORD = "klopklop"
 
 # connect to database ##################################
 

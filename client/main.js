@@ -37,7 +37,7 @@
 
   //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
 
-  function check_namespaces(namespaces) {
+  function checkNamespaces(namespaces) {
     
     var result = [];
     var ns;
@@ -55,12 +55,55 @@
     
   }
 
+  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  
+  //  Google Chrome doesn't support unsafeWindow, so... 
+  function siteScript(pack, namespaces, checkNamespaces) {
+    
+    var code = "",
+        script = document.createElement('script');
+    
+    code = [
+    
+      '(function () {',
+      
+        // append modified JSON lib (original was hard to include as string)
+        'if (!JSON) {',
+        '  var JSON = {};',
+        '  JSON.init = ' + JSON.init.toString(),
+        '  JSON.init();',
+        '}',
+        
+        // append checkNamespaces declaration
+        checkNamespaces.toString(),
+        
+        // main part of code
+        'var url = "' + SERVER_URL + '",',
+        '    xmlhttp = new XMLHttpRequest(),',
+        '    pack = ' + JSON.stringify(pack) + ',',
+        '    namespaces = ' + JSON.stringify(namespaces) + ';',
+        
+        'pack.ns = checkNamespaces(namespaces);',
+  
+        'url += "?pass=";',
+        'url += "' + SERVER_PASSWORD + '";',
+        'url += "&json=";',
+        'url += encodeURIComponent(JSON.stringify(pack));',
+  
+        'xmlhttp.open("GET", url, true);',
+        'xmlhttp.send(null);',
+        
+      '}());'
+      
+    ].join('\n');
+
+    script.innerHTML = code;
+    document.body.appendChild(script);
+    
+  }
+
   ///////////////////////////////////////////////////////////////////
 
   if (isHTML(document)) {
-    
-    var xmlhttp = new XMLHttpRequest(),
-        url = SERVER_URL;
     
     var namespaces = [
       
@@ -92,7 +135,6 @@
       "StateMachine",
       "signals",
       "jo",
-      "JSON",
       "JXG",
       "Kerning",
       "ko",
@@ -134,28 +176,15 @@
     var pack = {
       
       "id" : ID,
-      "u" : b64_md5(document.URL),                   // url hash
-      "d" : b64_md5(window.location.hostname),       // domain hash
-      "i" : window.top ? false : true,               // iframe
-      "n" : getNames(),                              // names
-      "ns" : check_namespaces(namespaces)            // namespaces
+      "u" : b64_md5(document.URL),                     // url hash
+      "d" : b64_md5(window.location.hostname),         // domain hash
+      "i" : window.top ? false : true,                 // iframe
+      "n" : getNames(),                                // names
+      "ns" : []                                        // namespaces (loaded in script tag)
       
     };
-
-//// development ////////////////////////////////////////////////////
-//
-//   xmlhttp.onreadystatechange = function() {
-//     if(4 === xmlhttp.readyState) {
-//       console.log(xmlhttp.responseText);
-//     }
-//   };
-//
-/////////////////////////////////////////////////////////////////////
-
-    url += '?pass=' + SERVER_PASSWORD + '&json=' + encodeURIComponent(JSON.stringify(pack));
-
-    xmlhttp.open('GET', url, true);
-    xmlhttp.send(null);
+  
+    siteScript(pack, namespaces, checkNamespaces);
   
   }
 

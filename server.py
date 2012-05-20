@@ -16,13 +16,13 @@ print('')
 
 # configuration ########################################
 
-COUCH_USER = "ciembor"
-COUCH_PASS = "klopklop13"
+COUCH_USER = "database_username"
+COUCH_PASS = "database_pass"
 
 DB_URL = "http://localhost.localdomain:5984/"
 DB_NAME = "pojsl"
 
-PASSWORD = "klopklop"
+PASSWORD = "client_password"
 
 # connect to database ##################################
 
